@@ -17,21 +17,16 @@
             config.commonHeaders = "Date,Payee,Value";
             config.YNABHeaders = "Date,Payee,Category,Memo,Outflow,Inflow";
             config.populateMatches = function(fatura){
-                var regex = /(\d*\/\d*)\t(.*)\t(-?\d*,\d*)/g;
+                var regex = /(\d*\/\d*)\t(.*)\t(-?[1-9]\d{0,2}(\.\d{3})*,\d{2})/g;
                 var match = null;
-                $("#fatura-converted").append(config.YNABHeaders);
+                $("#fatura-converted").append(config.commonHeaders);
                 $("#fatura-converted").append(config.newLine)
-                var year = new Date().getFullYear();
+                
                 while((match = regex.exec(fatura)) !== null){
-                    $("#fatura-converted").append(match[1]+"/"+year+","+match[2]+",,,");
-                    if(match[3].indexOf("-") == -1){
-                        $("#fatura-converted").append(match[3].replace(",",".")+",");
-                    }else{
-                        $("#fatura-converted").append(","+match[3].replace(",",".").replace("-",""));
-                    }
-                    
+                    $("#fatura-converted").append(match[1] + "," + match[2] + "," + match[2]);                    
                     $("#fatura-converted").append(config.newLine);
                 }
+                
             };
             
             $("#fatura-text").change(function(event){
